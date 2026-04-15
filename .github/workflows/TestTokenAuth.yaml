@@ -7,18 +7,30 @@ jobs:
   test-token:
     runs-on: windows-latest
     steps:
-      - name: Test HEAD with GITHUB_TOKEN
+      - name: Test all combinations
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          Write-Host "=== HEAD request WITH GITHUB_TOKEN ==="
-          $h = @{ "Accept"="application/vnd.github+json"; "Authorization"="token $env:GH_TOKEN"; "X-GitHub-Api-Version"="2022-11-28" }
-          try {
-            $r = Invoke-WebRequest -UseBasicParsing -Method Head -Headers $h -Uri "https://github.com/microsoft/AL-Go"
-            Write-Host "StatusCode: $($r.StatusCode)"
-            $r.Headers | ConvertTo-Json -Depth 3 | Write-Host
-          } catch {
-            Write-Host "FAILED: $($_.Exception.Message)"
-            $_ | Select-Object * | ConvertTo-Json -Depth 5 | Write-Host
+          $tests = @(
+            @{ Name="github.com HEAD no-auth";    Method="Head"; Uri="https://github.com/microsoft/AL-Go";           Auth=$false },
+            @{ Name="github.com HEAD with-auth";  Method="Head"; Uri="https://github.com/microsoft/AL-Go";           Auth=$true },
+            @{ Name="github.com GET no-auth";     Method="Get";  Uri="https://github.com/microsoft/AL-Go";           Auth=$false },
+            @{ Name="github.com GET with-auth";   Method="Get";  Uri="https://github.com/microsoft/AL-Go";           Auth=$true },
+            @{ Name="API HEAD no-auth";           Method="Head"; Uri="https://api.github.com/repos/microsoft/AL-Go"; Auth=$false },
+            @{ Name="API HEAD with-auth";         Method="Head"; Uri="https://api.github.com/repos/microsoft/AL-Go"; Auth=$true },
+            @{ Name="API GET no-auth";            Method="Get";  Uri="https://api.github.com/repos/microsoft/AL-Go"; Auth=$false },
+            @{ Name="API GET with-auth";          Method="Get";  Uri="https://api.github.com/repos/microsoft/AL-Go"; Auth=$true }
+          )
+          foreach ($t in $tests) {
+            $params = @{ UseBasicParsing=$true; Method=$t.Method; Uri=$t.Uri }
+            if ($t.Auth) {
+              $params.Headers = @{ "Accept"="application/vnd.github+json"; "Authorization"="token $env:GH_TOKEN"; "X-GitHub-Api-Version"="2022-11-28" }
+            }
+            try {
+              $r = Invoke-WebRequest @params
+              Write-Host "$($t.Name): $($r.StatusCode) OK"
+            } catch {
+              Write-Host "$($t.Name): $([int]$_.Exception.Response.StatusCode) $($_.Exception.Response.StatusCode)"
+            }
           }
