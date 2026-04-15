@@ -1,0 +1,59 @@
+name: Test Token Auth
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-token:
+    runs-on: windows-latest
+    steps:
+      - name: Test HEAD without token
+        shell: pwsh
+        run: |
+          Write-Host "=== HEAD request WITHOUT token ==="
+          try {
+            $r = Invoke-WebRequest -UseBasicParsing -Method Head -Uri "https://github.com/microsoft/AL-Go"
+            Write-Host "StatusCode: $($r.StatusCode)"
+          } catch {
+            Write-Host "FAILED: $($_.Exception.Message)"
+            Write-Host "Status: $($_.Exception.Response.StatusCode)"
+          }
+      - name: Test HEAD with GITHUB_TOKEN
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          Write-Host "=== HEAD request WITH GITHUB_TOKEN ==="
+          $h = @{ "Accept"="application/vnd.github+json"; "Authorization"="token $env:GH_TOKEN"; "X-GitHub-Api-Version"="2022-11-28" }
+          try {
+            $r = Invoke-WebRequest -UseBasicParsing -Method Head -Headers $h -Uri "https://github.com/microsoft/AL-Go"
+            Write-Host "StatusCode: $($r.StatusCode)"
+          } catch {
+            Write-Host "FAILED: $($_.Exception.Message)"
+            Write-Host "Status: $($_.Exception.Response.StatusCode)"
+          }
+      - name: Test API without token
+        shell: pwsh
+        run: |
+          Write-Host "=== API request WITHOUT token ==="
+          try {
+            $r = Invoke-WebRequest -UseBasicParsing -Method Head -Uri "https://api.github.com/repos/microsoft/AL-Go"
+            Write-Host "StatusCode: $($r.StatusCode)"
+          } catch {
+            Write-Host "FAILED: $($_.Exception.Message)"
+            Write-Host "Status: $($_.Exception.Response.StatusCode)"
+          }
+      - name: Test API with GITHUB_TOKEN
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          Write-Host "=== API request WITH GITHUB_TOKEN ==="
+          $h = @{ "Accept"="application/vnd.github+json"; "Authorization"="token $env:GH_TOKEN"; "X-GitHub-Api-Version"="2022-11-28" }
+          try {
+            $r = Invoke-WebRequest -UseBasicParsing -Method Head -Headers $h -Uri "https://api.github.com/repos/microsoft/AL-Go"
+            Write-Host "StatusCode: $($r.StatusCode)"
+          } catch {
+            Write-Host "FAILED: $($_.Exception.Message)"
+            Write-Host "Status: $($_.Exception.Response.StatusCode)"
+          }
