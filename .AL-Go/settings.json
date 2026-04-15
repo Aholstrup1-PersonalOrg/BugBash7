@@ -1,7 +1,1 @@
-{
-  "$schema": "https://raw.githubusercontent.com/microsoft/AL-Go/aholstrup1/nuget-compiler-folder/Actions/.Modules/settings.schema.json",
-  "country": "us",
-  "appFolders": [],
-  "testFolders": [],
-  "bcptTestFolders": []
-}
+{"country":"us","workspaceCompilation":{"enabled":true}}
