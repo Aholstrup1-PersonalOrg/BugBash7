@@ -2,5 +2,5 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/AL-Go/aholstrup1/nuget-compiler-folder/Actions/.Modules/settings.schema.json",
   "type": "PTE",
   "templateUrl": "https://github.com/microsoft/AL-Go@aholstrup1/nuget-compiler-folder",
-  "templateSha": "b6aa29f841b021963eb88623740abdb855706ef1"
+  "templateSha": "60d66cec95b4c9e0e0f6e3859d0d9c2510206985"
 }
