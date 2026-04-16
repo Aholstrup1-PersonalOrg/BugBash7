@@ -1,48 +1,48 @@
 {
+  "publisher": "TestPublisher",
+  "platform": "28.0.0.0",
   "resourceExposurePolicy": {
     "allowDebugging": true,
     "allowDownloadingSource": false,
     "includeSourceInSymbolFile": false
   },
-  "dependencies": [
+  "version": "1.0.0.0",
+  "idRanges": [
     {
-      "publisher": "4APP Solution d.o.o.",
-      "id": "b9d41394-dbd7-4caa-8cd2-32f72d05ac78",
-      "name": "Advanced Incoming Document",
-      "version": "1.0.0.0"
-    },
-    {
-      "publisher": "365 Vertical",
-      "id": "5a3f3e66-d4ed-40b2-89cc-a2e03b1cb293",
-      "name": "365 Client License Manager",
-      "version": "1.0.0.0"
-    },
-    {
-      "publisher": "4APP Solution d.o.o.",
-      "id": "d5a6bdde-e963-4a9b-b551-88df08955b3a",
-      "name": "4APP ADVANCED DISCOUNT",
-      "version": "1.0.0.0"
-    },
-    {
-      "publisher": "Microsoft",
-      "id": "ec255f57-31d0-4ca2-b751-f2fa7c745abb",
-      "name": "Shopify Connector",
-      "version": "28.0.0.0"
+      "from": 50001,
+      "to": 50010
     }
   ],
-  "version": "1.0.0.0",
-  "platform": "28.0.0.0",
-  "id": "b6a27d7d-6b07-422c-a5c5-ae3136236215",
-  "name": "TestApp",
   "features": [
     "NoImplicitWith"
   ],
-  "publisher": "TestPublisher",
-  "application": "28.0.0.0",
-  "idRanges": [
+  "id": "b6a27d7d-6b07-422c-a5c5-ae3136236215",
+  "dependencies": [
     {
-      "to": 50010,
-      "from": 50001
+      "version": "1.0.0.5",
+      "name": "Advanced Incoming Document",
+      "publisher": "4APP Solution d.o.o.",
+      "id": "b9d41394-dbd7-4caa-8cd2-32f72d05ac78"
+    },
+    {
+      "version": "2700.202601.0.19",
+      "name": "365 Client License Manager",
+      "publisher": "365 Vertical",
+      "id": "5a3f3e66-d4ed-40b2-89cc-a2e03b1cb293"
+    },
+    {
+      "version": "26.3.0.4",
+      "name": "4APP ADVANCED DISCOUNT",
+      "publisher": "4APP Solution d.o.o.",
+      "id": "d5a6bdde-e963-4a9b-b551-88df08955b3a"
+    },
+    {
+      "version": "28.0.0.0",
+      "name": "Shopify Connector",
+      "publisher": "Microsoft",
+      "id": "ec255f57-31d0-4ca2-b751-f2fa7c745abb"
     }
-  ]
+  ],
+  "application": "28.0.0.0",
+  "name": "TestApp"
 }
